@@ -59,10 +59,10 @@ while True:
     except ValueError:
         print(f'MASUKAN DENGAN ANGKA! ')
 
-
+print("\n\n         MENU MINUMAN\n")
 for kodemin , detailmin in mastermenu[1].items():
     harga_idrmin = f"{detailmin["harga"]:,}".replace(",", ".")
-    print(f'[{kodemin}] {detailmin["nama"]} - Rp{harga_idrmin}')
+    print(f'[{kodemin}] {detailmin["nama"].ljust(25)} - Rp{harga_idrmin}')
 
 while True:
     pesanmin = input('\nMASUKAN KODE MINUMAN : ').upper()
