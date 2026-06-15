@@ -1,5 +1,23 @@
-print('\n\n\n\nSELAMAT DATANG DI Croissant Doré')
-print('\n\n ----- DAFTAR MENU -----\n\n')
+# Kode Warna Teks
+MERAH    = '\033[31m'
+HIJAU    = '\033[32m'
+KUNING   = '\033[33m'
+BIRU     = '\033[34m'
+MAGENTA  = '\033[35m'
+CYAN     = '\033[36m'
+# Style Font
+TEBAL         = '\033[1m'
+REDUP         = '\033[2m'  # Bikin teks agak abu-abu/tipis
+MIRING        = '\033[3m'  # Catatan: Gak semua terminal dukung miring
+GARIS_BAWAH   = '\033[4m'
+BERKEDIP      = '\033[5m'  # Bikin teks kedip-kedip (retro abis!)
+NEGATIF       = '\033[7m'  # Tukar posisi warna teks ama warna background
+GARIS_BAWAH = '\033[4m'
+
+RESET    = '\033[0m'
+
+print(f'\n\n\n\n{TEBAL}SELAMAT DATANG DI Croissant Doré{RESET}')
+print(f'\n\n{TEBAL}    ----- DAFTAR MENU -----{RESET}\n\n')
 mastermenu = []
 menumakanan = {
 
@@ -33,59 +51,109 @@ menuminuman = {
     "MD": {"nama": 'Susu Milo Dingin', "harga": 5000},
     "EC": {"nama": 'Es Cappucino', "harga": 5000}
     }
-
+keranjangmakan = []
 mastermenu.append(menumakanan)
 mastermenu.append(menuminuman)
 
-print("         MENU MAKANAN\n")
-for kodemak , detailmak in mastermenu[0].items():
-    harga_idrmak = f"{detailmak['harga']:,}".replace(",", ".")
-    print(f'[{kodemak}] {detailmak["nama"].ljust(25)} - Rp{harga_idrmak}')
-
 while True:
-    pesanmak = input('\nMASUKAN KODE MAKANAN : ').upper()
-    if pesanmak in mastermenu[0]:
-        break
-    else:
-        print('MASUKAN KODE YANG TERDAFTAR! ')
 
-while True:
-    try:
-        porsimak = int(input('BERAPA PORSI : '))
-        if porsimak > 0:
+        print(f"\n         {GARIS_BAWAH}{TEBAL}{MIRING}MENU MAKANAN{RESET}\n")
+        while True:
+
+                for kodemak , detailmak in mastermenu[0].items():
+                    harga_idrmak = f"{detailmak['harga']:,}".replace(",", ".")
+                    print(f'{TEBAL}[{kodemak}]{RESET} {MIRING}{detailmak["nama"].ljust(25)}{RESET} : {TEBAL}{HIJAU}Rp{harga_idrmak}{RESET}')
+
+                while True:
+                    pesanmak = input('\nMASUKAN KODE MAKANAN : ').upper()
+                    if pesanmak in mastermenu[0]:
+                        break
+                    else:
+                       print('MASUKAN KODE YANG TERDAFTAR! ')
+
+                while True:
+                    try:
+                        porsimak = int(input('BERAPA PORSI : '))
+                        if porsimak > 0:
+                            break
+                        else:
+                           print('MASUKAN JUMLAH PORSI DENGAN BENAR! ')
+                    except ValueError:
+                        print(f'MASUKAN DENGAN ANGKA! ')
+                pmakanan = {
+
+                            "nama" : pesanmak,
+                            "porsi" : porsimak
+                        }
+                keranjangmakan.append(pmakanan)
+                
+                print(f'{TEBAL}KERANJANG ANDA SAAT INI:{RESET}')
+                for menumak in keranjangmakan:
+                    nama_makanan = mastermenu[0][menumak["nama"]]['nama']
+                    porsi_makanan = menumak["porsi"]
+                    subtmak = mastermenu[0][menumak['nama']]['harga'] * porsi_makanan
+                    idrsubtmak = f'{subtmak:,}'.replace(",", ".")
+                    print(f'               {TEBAL}{nama_makanan.ljust(20)} x{porsi_makanan} = Rp{idrsubtmak}{RESET}')
+                print(f'\n[ {TEBAL}{KUNING}N{RESET} > {TEBAL}{KUNING}(LANJUTKAN PESANAN){RESET}  | {TEBAL}{KUNING}Y{RESET} > {TEBAL}{KUNING}(EDIT MENU){RESET} ]')
+                while True:                   
+                            editmak = input(f'\n{TEBAL}APAKAH INGIN MENAMBAH MENU LAIN?{RESET}').upper()
+                            if editmak == "Y" or editmak == "N":
+                                break
+                            else:
+                                print(f'MASUKAN INPUT DENGAN BENAR! ')
+                                print(f'\n[ {TEBAL}{KUNING}N{RESET} > {TEBAL}{KUNING}(LANJUTKAN PESANAN){RESET}  | {TEBAL}{KUNING}Y{RESET} > {TEBAL}{KUNING}(EDIT MENU){RESET} ]')
+                if editmak == "N":
+                    break
+                elif editmak == "Y":
+                    print(f'\n         {TEBAL}PILIH MENU ANDA :){RESET}\n')
+            #PEMBATAS MENU, SUPAYA TIDAK BINGUNG
+        print(f'\n\n\n-- FIX ORDER --')
+        for menumak in keranjangmakan:
+                    nama_makanan = mastermenu[0][menumak["nama"]]['nama']
+                    porsi_makanan = menumak["porsi"]
+                    subtmak = mastermenu[0][menumak['nama']]['harga'] * porsi_makanan
+                    idrsubtmak = f'{subtmak:,}'.replace(",", ".")
+                    print(f'               {TEBAL}{nama_makanan.ljust(20)} x{porsi_makanan} = Rp{idrsubtmak}{RESET}')
+
+        print(f"\n\n\n\n         {GARIS_BAWAH}{TEBAL}{MIRING}MENU MINUMAN{RESET}\n")
+        for kodemin , detailmin in mastermenu[1].items():
+            harga_idrmin = f"{detailmin["harga"]:,}".replace(",", ".")
+            print(f'{TEBAL}[{kodemin}]{RESET} {MIRING}{detailmin["nama"].ljust(25)}{RESET} : {TEBAL}{HIJAU}Rp{harga_idrmin}{RESET}')
+
+        while True:
+            pesanmin = input('\nMASUKAN KODE MINUMAN : ').upper()
+            if pesanmin in mastermenu[1]:
+                break
+            else:
+                print('MASUKAN KODE YANG TERDAFTAR! ')
+
+        while True:
+            try:
+                porsimin = int(input('BERAPA PORSI : '))
+                if porsimin > 0:
+                    break
+                else:
+                    print('MASUKAN JUMLAH PORSI DENGAN BENAR! ')
+            except ValueError:
+                print('MASUKAN DENGAN ANGKA! ')
+
+        hargamak = mastermenu[0][pesanmak]["harga"] * porsimak
+        hargamin = mastermenu[1][pesanmin]["harga"] * porsimin
+        totalharga = hargamak + hargamin
+
+        print(f'\n\n{GARIS_BAWAH} ----- PESANAN ANDA ----- {RESET}\n')
+        print(f'MAKANAN : {MIRING}{TEBAL}{mastermenu[0][pesanmak]["nama"]}{RESET} - {KUNING}{porsimak}p{RESET} - TOTAL = {HIJAU}{TEBAL}Rp{f'{hargamak:,}'.replace(",", ".")}{RESET}')
+        print(f'MINUMAN : {MIRING}{TEBAL}{mastermenu[1][pesanmin]["nama"]}{RESET} - {KUNING}{porsimin}p{RESET} - TOTAL = {HIJAU}{TEBAL}Rp{f'{hargamin:,}'.replace(",", ".")}{RESET}')
+        print(f'          TOTAL = {TEBAL}{GARIS_BAWAH}{HIJAU}Rp{f'{totalharga:,}{RESET}'.replace(",", ".")}\n                                  ')
+        print(f'[ {TEBAL}{HIJAU}{GARIS_BAWAH}Y{RESET} > {GARIS_BAWAH}{TEBAL}{HIJAU}(LANJUTKAN PESANAN){RESET}  | {TEBAL}{MERAH}{GARIS_BAWAH}N{RESET} > {GARIS_BAWAH}{TEBAL}{MERAH}(EDIT PESANAN){RESET} ]')
+        while True:
+            konfirmasi = input(f'\n{TEBAL}APAKAH ANDA INGIN MELANJUTKAN PESANAN?{RESET} ').upper()
+            if konfirmasi == "Y" or konfirmasi == "N":
+                break
+            else:
+                print(f'\n{GARIS_BAWAH}{TEBAL}{MERAH}MASUKAN INPUT DENGAN BENAR!{RESET} ')
+                print(f'[ {TEBAL}{HIJAU}{GARIS_BAWAH}Y{RESET} > {GARIS_BAWAH}{TEBAL}{HIJAU}(LANJUTKAN PESANAN){RESET}  | {TEBAL}{MERAH}{GARIS_BAWAH}N{RESET} > {GARIS_BAWAH}{TEBAL}{MERAH}(EDIT PESANAN){RESET} ]')
+        if konfirmasi == "Y":
             break
-        else:
-            print('MASUKAN JUMLAH PORSI DENGAN BENAR! ')
-    except ValueError:
-        print(f'MASUKAN DENGAN ANGKA! ')
-
-print("\n\n         MENU MINUMAN\n")
-for kodemin , detailmin in mastermenu[1].items():
-    harga_idrmin = f"{detailmin["harga"]:,}".replace(",", ".")
-    print(f'[{kodemin}] {detailmin["nama"].ljust(25)} - Rp{harga_idrmin}')
-
-while True:
-    pesanmin = input('\nMASUKAN KODE MINUMAN : ').upper()
-    if pesanmin in mastermenu[1]:
-        break
-    else:
-        print('MASUKAN KODE YANG TERDAFTAR! ')
-
-while True:
-    try:
-        porsimin = int(input('BERAPA PORSI : '))
-        if porsimin > 0:
-            break
-        else:
-            print('MASUKAN JUMLAH PORSI DENGAN BENAR! ')
-    except ValueError:
-        print('MASUKAN DENGAN ANGKA! ')
-
-hargamak = mastermenu[0][pesanmak]["harga"] * porsimak
-hargamin = mastermenu[1][pesanmin]["harga"] * porsimin
-totalharga = hargamak + hargamin
-
-print(f'\n\n ----- PESANAN ANDA ----- ')
-print(f'MAKANAN : {mastermenu[0][pesanmak]["nama"]} - {porsimak}p - TOTAL = Rp{f'{hargamak:,}'.replace(",", ".")}')
-print(f'MINUMAN : {mastermenu[1][pesanmin]["nama"]} - {porsimin}p - TOTAL = Rp{f'{hargamin:,}'.replace(",", ".")}')
-print(f'          TOTAL = Rp{f'{totalharga:,}'.replace(",", ".")}\n')
+        elif konfirmasi == "N":
+            print(f'{TEBAL}{KUNING}PESANAN DIBATALKAN SILAHKAN PILIH MENU{RESET}')
